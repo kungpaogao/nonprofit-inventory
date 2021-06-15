@@ -1,0 +1,23 @@
+.app {
+  display: flex;
+  width: 70%;
+  margin: 0 auto;
+  padding: 16px;
+}
+
+.addField {
+  border: 1px solid gray;
+  padding: 16px;
+  flex-grow: 1;
+  margin-right: 16px;
+}
+
+.results {
+  border: 1px solid gray;
+  padding: 16px;
+  flex-grow: 1;
+}
+
+.formField {
+  margin-bottom: 16px;
+}
