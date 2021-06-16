@@ -12,12 +12,13 @@
   margin-right: 16px;
 }
 
+.addField > * {
+  display: block;
+  margin-bottom: 16px;
+}
+
 .results {
   border: 1px solid gray;
   padding: 16px;
   flex-grow: 1;
-}
-
-.formField {
-  margin-bottom: 16px;
 }
