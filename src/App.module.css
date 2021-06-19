@@ -22,3 +22,42 @@
   padding: 16px;
   flex-grow: 1;
 }
+
+.formElement {
+  border: 1px solid gray;
+  margin-bottom: 8px;
+  padding: 16px;
+  display: flex;
+}
+
+.formElement .info {
+  flex: 1;
+}
+
+.formElement .id {
+  font-size: 18px;
+  margin: 0;
+}
+
+.formElement .type {
+  font-size: 16px;
+  margin-top: 8px;
+  margin-bottom: 0;
+}
+
+.formElement .actions {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.handle {
+  margin-right: 16px;
+  cursor: grab;
+  display: flex;
+  align-items: center;
+}
+
+.handle:hover {
+  color: blue;
+}

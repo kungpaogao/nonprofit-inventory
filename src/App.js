@@ -1,29 +1,37 @@
 import { useState } from "react";
+import { ReactSortable } from "react-sortablejs";
 import styles from "./App.module.css";
 
 function App() {
+  // add field
   const [fieldName, setFieldName] = useState("");
   const [fieldType, setFieldType] = useState("");
   const [fieldOptions, setFieldOptions] = useState("");
 
-  const [formObject, setFormObject] = useState({});
+  // results
+  const [formElements, setFormElements] = useState([]);
+
+  // validation
+  const requireOptions = () => fieldType === "radio" || fieldType === "select";
 
   function addField() {
     if (fieldName && fieldType) {
-      const newFormObject = { ...formObject };
+      const newFormElement = {
+        id: fieldName,
+        type: fieldType,
+      };
       if (requireOptions()) {
         if (!fieldOptions) return;
-        newFormObject[fieldName] = `${fieldType}:${fieldOptions}`;
-      } else {
-        newFormObject[fieldName] = fieldType;
+        newFormElement["options"] = fieldOptions;
       }
-      setFormObject(newFormObject);
+      setFormElements((prevFormElements) => [
+        ...prevFormElements,
+        newFormElement,
+      ]);
       setFieldName("");
       setFieldOptions("");
     }
   }
-
-  const requireOptions = () => fieldType === "radio" || fieldType === "select";
 
   return (
     <div className={styles.app}>
@@ -75,7 +83,46 @@ function App() {
       </div>
       <div className={styles.results}>
         <h2>Results</h2>
-        <pre>{JSON.stringify(formObject, null, 2)}</pre>
+        <ReactSortable
+          handle={`.${styles.handle}`}
+          animation={150}
+          list={formElements}
+          setList={setFormElements}
+        >
+          {formElements.map(({ id, type, options, chosen }) => (
+            <FormElement
+              id={id}
+              type={type}
+              options={options}
+              chosen={chosen}
+            />
+          ))}
+        </ReactSortable>
+        <pre>{JSON.stringify(formElements, null, 2)}</pre>
+      </div>
+    </div>
+  );
+}
+
+function FormElement({ id, type, options, chosen }) {
+  return (
+    <div className={styles.formElement}>
+      <div className={styles.handle} style={{ cursor: chosen && "grabbing" }}>
+        ::
+      </div>
+      <div className={styles.info}>
+        <h2 className={styles.id}>{id}</h2>
+        <p className={styles.type}>
+          <b>
+            {type}
+            {options && ":"}
+          </b>{" "}
+          {options && options.split(";").join(", ")}
+        </p>
+      </div>
+      <div className={styles.actions}>
+        <button>Edit</button>
+        <button>Delete</button>
       </div>
     </div>
   );
