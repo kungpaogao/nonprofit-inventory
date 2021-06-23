@@ -1,4 +1,6 @@
 import { ReactSortable } from "react-sortablejs";
+import { Button, Card } from "@material-ui/core";
+import { DragIndicator } from "@material-ui/icons";
 
 export default function EditorResults({ schema, setSchema }) {
   return (
@@ -25,24 +27,24 @@ export default function EditorResults({ schema, setSchema }) {
   );
 }
 
-function SchemaElement({ id, type, options, chosen }) {
+function SchemaElement({ id, type, options }) {
   return (
-    <div className="border border-gray-300 rounded flex p-4 mb-4">
-      <div className="handle mr-4 cursor-move">::</div>
-      <div className="flex-1">
+    <Card className="flex p-4 mb-4">
+      <div className="handle mr-4 cursor-move flex flex-col justify-center">
+        <DragIndicator />
+      </div>
+      <div className="flex-1 mr-4">
         <h2 className="text-lg">{id}</h2>
         <p>
-          <b>
-            {type}
-            {options && ":"}
-          </b>{" "}
+          {type}
+          {options && ": "}
           {options && options.split(";").join(", ")}
         </p>
       </div>
       <div className="flex flex-col justify-between">
-        <button>Edit</button>
-        <button>Delete</button>
+        <Button size="small">Edit</Button>
+        <Button size="small">Delete</Button>
       </div>
-    </div>
+    </Card>
   );
 }
