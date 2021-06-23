@@ -1,4 +1,4 @@
-import { MenuItem, TextField, Button, Grid, Select } from "@material-ui/core";
+import { MenuItem, TextField, Button, Grid } from "@material-ui/core";
 import { useState } from "react";
 import { useForm, Controller } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -21,16 +21,20 @@ const FIELD_TYPES = [
 const SCHEMA = yup.object().shape({
   fieldName: yup.string().trim().required(),
   fieldType: yup.mixed().oneOf(FIELD_TYPES).required(),
-  fieldOptions: yup
-    .string()
-    .trim()
-    .when("fieldType", (fieldType) => {
-      if (fieldType === "radio" || fieldType === "select")
-        return yup.string().required();
-    }),
+  fieldOptions: yup.string().when("fieldType", (fieldType) => {
+    if (fieldType === "radio" || fieldType === "select")
+      return yup
+        .string()
+        .trim()
+        .matches(
+          /^[a-z\d.].*[a-z\d.!?)]$/i,
+          "Options cannot start or end with special characters except '!' or '.' or '?'"
+        )
+        .required();
+  }),
 });
 
-export default function CreateField({ onSubmit = (d) => console.log(d) }) {
+export default function CreateField({ onSubmit }) {
   const {
     control,
     handleSubmit,
@@ -41,8 +45,8 @@ export default function CreateField({ onSubmit = (d) => console.log(d) }) {
 
   const requireOptions = (fieldType) =>
     fieldType === "radio" || fieldType === "select";
+
   const handleFieldTypeChange = (event) => {
-    console.log("changed", event.target.value);
     setFieldType(event.target.value);
     return event.target.value;
   };
