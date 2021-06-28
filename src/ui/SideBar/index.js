@@ -7,36 +7,28 @@ import {
   ListItemText,
   Toolbar,
 } from "@material-ui/core";
-import { Archive, ViewList } from "@material-ui/icons";
-import { useHistory } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
 
-const sidebarItems = [
-  {
-    icon: ViewList,
-    text: "Inventory",
-    route: "/",
-  },
-  {
-    icon: Archive,
-    text: "Archive",
-    route: "/archive",
-  },
-];
-
-export default function SideBar({ className }) {
+export default function SideBar({ routes, className }) {
   const history = useHistory();
+  const location = useLocation();
 
   return (
     <Drawer variant="permanent" className={className}>
       <Toolbar />
       <List className="w-60">
-        {sidebarItems.map(({ divider, icon, text, route }, index) => {
+        {routes?.map(({ divider, icon, text, path }, index) => {
           if (divider) {
             return <Divider key={`divider${index}`} />;
           } else {
             const Icon = icon;
             return (
-              <ListItem button key={route} onClick={() => history.push(route)}>
+              <ListItem
+                button
+                selected={location.pathname === path}
+                key={path}
+                onClick={() => history.push(path)}
+              >
                 <ListItemIcon>
                   <Icon />
                 </ListItemIcon>
