@@ -16,6 +16,7 @@ const FIELD_TYPES = [
   "url",
   "time",
   "datetime",
+  "address",
 ];
 
 const SCHEMA = yup.object().shape({
