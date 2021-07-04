@@ -8,8 +8,15 @@ import {
   Toolbar,
 } from "@material-ui/core";
 import { useHistory, useLocation } from "react-router-dom";
+import { Route } from "../../models/route";
 
-export default function SideBar({ routes, className }) {
+export default function SideBar({
+  routes,
+  className,
+}: {
+  routes: Route[];
+  className?: string;
+}) {
   const history = useHistory();
   const location = useLocation();
 
@@ -17,21 +24,22 @@ export default function SideBar({ routes, className }) {
     <Drawer variant="permanent" className={className}>
       <Toolbar />
       <List className="w-60">
-        {routes?.map(({ divider, icon, text, path }, index) => {
+        {routes?.map(({ divider, icon: Icon, text, path }, index) => {
           if (divider) {
             return <Divider key={`divider${index}`} />;
           } else {
-            const Icon = icon;
             return (
               <ListItem
                 button
                 selected={location.pathname === path}
                 key={path}
-                onClick={() => history.push(path)}
+                onClick={() => history.push(path!)}
               >
-                <ListItemIcon>
-                  <Icon />
-                </ListItemIcon>
+                {Icon && (
+                  <ListItemIcon>
+                    <Icon />
+                  </ListItemIcon>
+                )}
                 <ListItemText>{text}</ListItemText>
               </ListItem>
             );

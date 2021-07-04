@@ -2147,6 +2147,11 @@
   dependencies:
     "@types/node" "*"
 
+"@types/history@*":
+  version "4.7.8"
+  resolved "https://registry.yarnpkg.com/@types/history/-/history-4.7.8.tgz#49348387983075705fe8f4e02fb67f7daaec4934"
+  integrity sha512-S78QIYirQcUoo6UJZx9CSP0O2ix9IaeAXwQi26Rhr/+mg7qqPy8TzaxHSUut7eGjL8WmLccT7/MXf304WjqHcA==
+
 "@types/html-minifier-terser@^5.0.0":
   version "5.1.1"
   resolved "https://registry.npmjs.org/@types/html-minifier-terser/-/html-minifier-terser-5.1.1.tgz"
@@ -2209,6 +2214,11 @@
   resolved "https://registry.npmjs.org/@types/node/-/node-14.14.31.tgz"
   integrity sha512-vFHy/ezP5qI0rFgJ7aQnjDXwAMrG0KqqIH7tQG5PPv3BWBayOPIQNBjVc/P6hhdZfMx51REc6tfDNXHUio893g==
 
+"@types/node@^16.0.0":
+  version "16.0.0"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-16.0.0.tgz#067a6c49dc7a5c2412a505628e26902ae967bf6f"
+  integrity sha512-TmCW5HoZ2o2/z2EYi109jLqIaPIi9y/lc2LmDCWzuCi35bcaQ+OtUh6nwBiFK7SOu25FAU5+YKdqFZUwtqGSdg==
+
 "@types/normalize-package-data@^2.4.0":
   version "2.4.0"
   resolved "https://registry.npmjs.org/@types/normalize-package-data/-/normalize-package-data-2.4.0.tgz"
@@ -2234,11 +2244,35 @@
   resolved "https://registry.npmjs.org/@types/q/-/q-1.5.4.tgz"
   integrity sha512-1HcDas8SEj4z1Wc696tH56G8OlRaH/sqZOynNNB+HF0WOeXPaxTtbYzJY2oEfiUxjSKjhCKr+MvR7dCHcEelug==
 
+"@types/react-dom@^17.0.8":
+  version "17.0.8"
+  resolved "https://registry.yarnpkg.com/@types/react-dom/-/react-dom-17.0.8.tgz#3180de6d79bf53762001ad854e3ce49f36dd71fc"
+  integrity sha512-0ohAiJAx1DAUEcY9UopnfwCE9sSMDGnY/oXjWMax6g3RpzmTt2GMyMVAXcbn0mo8XAff0SbQJl2/SBU+hjSZ1A==
+  dependencies:
+    "@types/react" "*"
+
 "@types/react-is@^16.7.1 || ^17.0.0":
   version "17.0.1"
   resolved "https://registry.npmjs.org/@types/react-is/-/react-is-17.0.1.tgz"
   integrity sha512-X6jVqDIibL2sY0Qtth5EzNeUgPyoCWeBZdmE5xKr7hI4zaQDwN0VaQd7pJnlOB0mDGnOVH0cZZVXg9cnWhztQg==
   dependencies:
+    "@types/react" "*"
+
+"@types/react-router-dom@^5.1.7":
+  version "5.1.7"
+  resolved "https://registry.yarnpkg.com/@types/react-router-dom/-/react-router-dom-5.1.7.tgz#a126d9ea76079ffbbdb0d9225073eb5797ab7271"
+  integrity sha512-D5mHD6TbdV/DNHYsnwBTv+y73ei+mMjrkGrla86HthE4/PVvL1J94Bu3qABU+COXzpL23T1EZapVVpwHuBXiUg==
+  dependencies:
+    "@types/history" "*"
+    "@types/react" "*"
+    "@types/react-router" "*"
+
+"@types/react-router@*":
+  version "5.1.15"
+  resolved "https://registry.yarnpkg.com/@types/react-router/-/react-router-5.1.15.tgz#c1069e0da4617fd315e381b56b18b89490e14e2a"
+  integrity sha512-z3UlMG/x91SFEVmmvykk9FLTliDvfdIUky4k2rCfXWQ0NKbrP8o9BTCaCTPuYsB8gDkUnUmkcA2vYlm2DR+HAA==
+  dependencies:
+    "@types/history" "*"
     "@types/react" "*"
 
 "@types/react-transition-group@^4.2.0":
@@ -2257,6 +2291,15 @@
     "@types/scheduler" "*"
     csstype "^3.0.2"
 
+"@types/react@^17.0.13":
+  version "17.0.13"
+  resolved "https://registry.yarnpkg.com/@types/react/-/react-17.0.13.tgz#6b7c9a8f2868586ad87d941c02337c6888fb874f"
+  integrity sha512-D/G3PiuqTfE3IMNjLn/DCp6umjVCSvtZTPdtAFy5+Ved6CsdRvivfKeCzw79W4AatShtU4nGqgvOv5Gro534vQ==
+  dependencies:
+    "@types/prop-types" "*"
+    "@types/scheduler" "*"
+    csstype "^3.0.2"
+
 "@types/resolve@0.0.8":
   version "0.0.8"
   resolved "https://registry.npmjs.org/@types/resolve/-/resolve-0.0.8.tgz"
@@ -2268,6 +2311,11 @@
   version "0.16.1"
   resolved "https://registry.npmjs.org/@types/scheduler/-/scheduler-0.16.1.tgz"
   integrity sha512-EaCxbanVeyxDRTQBkdLb3Bvl/HK7PBK6UJjsSixB0iHKoWxE5uu2Q/DgtpOhPIojN0Zl1whvOd7PoHs2P0s5eA==
+
+"@types/semver@^7.3.6":
+  version "7.3.6"
+  resolved "https://registry.yarnpkg.com/@types/semver/-/semver-7.3.6.tgz#e9831776f4512a7ba6da53e71c26e5fb67882d63"
+  integrity sha512-0caWDWmpCp0uifxFh+FaqK3CuZ2SkRR/ZRxAV5+zNdC3QVUi6wyOJnefhPvtNt8NQWXB5OA93BUvZsXpWat2Xw==
 
 "@types/source-list-map@*":
   version "0.1.2"
@@ -11817,6 +11865,11 @@ typedarray@^0.0.6:
   version "0.0.6"
   resolved "https://registry.npmjs.org/typedarray/-/typedarray-0.0.6.tgz"
   integrity sha1-hnrHTjhkGHsdPUfZlqeOxciDB3c=
+
+typescript@^4.3.5:
+  version "4.3.5"
+  resolved "https://registry.yarnpkg.com/typescript/-/typescript-4.3.5.tgz#4d1c37cc16e893973c45a06886b7113234f119f4"
+  integrity sha512-DqQgihaQ9cUrskJo9kIyW/+g0Vxsk8cDtZ52a3NGh0YNTfpUSArXSohyUGnvbPazEPLu398C0UxmKSOrPumUzA==
 
 unicode-canonical-property-names-ecmascript@^1.0.4:
   version "1.0.4"

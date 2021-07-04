@@ -1,5 +1,5 @@
 import { MenuItem, TextField, Button, Grid } from "@material-ui/core";
-import { useState } from "react";
+import React, { useState } from "react";
 import { useForm, Controller } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
@@ -22,20 +22,32 @@ const FIELD_TYPES = [
 const SCHEMA = yup.object().shape({
   fieldName: yup.string().trim().required(),
   fieldType: yup.mixed().oneOf(FIELD_TYPES).required(),
-  fieldOptions: yup.string().when("fieldType", (fieldType) => {
-    if (fieldType === "radio" || fieldType === "select")
-      return yup
-        .string()
-        .trim()
-        .matches(
-          /^[a-z\d.].*[a-z\d.!?)]$/i,
-          "Options cannot start or end with special characters except '!' or '.' or '?'"
-        )
-        .required();
+  fieldOptions: yup.string().when("fieldType", {
+    is: (fieldType: string) => fieldType === "radio" || fieldType === "select",
+    then: yup
+      .string()
+      .trim()
+      .matches(
+        /^[a-z\d.].*[a-z\d.!?)]$/i,
+        "Options cannot start or end with special characters except '!' or '.' or '?'"
+      )
+      .required(),
   }),
 });
 
-export default function CreateField({ onSubmit }) {
+export default function CreateField({
+  onSubmit,
+}: {
+  onSubmit: ({
+    fieldName,
+    fieldType,
+    fieldOptions,
+  }: {
+    fieldName: string;
+    fieldType: string;
+    fieldOptions: string;
+  }) => void;
+}) {
   const {
     control,
     handleSubmit,
@@ -44,10 +56,12 @@ export default function CreateField({ onSubmit }) {
 
   const [fieldType, setFieldType] = useState("");
 
-  const requireOptions = (fieldType) =>
+  const requireOptions = (fieldType: string) =>
     fieldType === "radio" || fieldType === "select";
 
-  const handleFieldTypeChange = (event) => {
+  const handleFieldTypeChange = (
+    event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
+  ) => {
     setFieldType(event.target.value);
     return event.target.value;
   };
@@ -63,7 +77,12 @@ export default function CreateField({ onSubmit }) {
               control={control}
               defaultValue=""
               render={({ field }) => (
-                <TextField {...field} label="Field name" className="w-1/2" />
+                <TextField
+                  {...field}
+                  label="Field name"
+                  className="w-1/2"
+                  fullWidth
+                />
               )}
             />
           </Grid>
@@ -77,6 +96,7 @@ export default function CreateField({ onSubmit }) {
                   className="w-1/2"
                   label="Field type"
                   select
+                  fullWidth
                   value={fieldType}
                   onChange={(e) => field.onChange(handleFieldTypeChange(e))}
                 >
@@ -104,6 +124,7 @@ export default function CreateField({ onSubmit }) {
                     className="w-1/2"
                     label="Field options"
                     placeholder="Enter options separate by ;"
+                    fullWidth
                   />
                 )}
               />
@@ -116,7 +137,9 @@ export default function CreateField({ onSubmit }) {
           </Grid>
         </Grid>
       </form>
-      <pre>{JSON.stringify(errors, null, 2)}</pre>
+      {Object.keys(errors).length > 0 && (
+        <pre>{JSON.stringify(errors, null, 2)}</pre>
+      )}
     </>
   );
 }

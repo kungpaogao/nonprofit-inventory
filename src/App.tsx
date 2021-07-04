@@ -39,12 +39,9 @@ function App() {
             <Switch>
               <Redirect from="/" to="/inventory" exact />
               {routes.map(({ path, component, divider }) => {
-                const Component = component;
                 return (
                   !divider && (
-                    <Route key={path} path={path}>
-                      <Component />
-                    </Route>
+                    <Route key={path} path={path} component={component} />
                   )
                 );
               })}

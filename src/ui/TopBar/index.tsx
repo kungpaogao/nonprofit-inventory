@@ -1,6 +1,6 @@
 import { AppBar, Toolbar } from "@material-ui/core";
 
-export default function TopBar({ className }) {
+export default function TopBar({ className }: { className: string }) {
   return (
     <AppBar position="fixed" className={className}>
       <Toolbar>
