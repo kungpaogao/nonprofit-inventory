@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import {
   BrowserRouter as Router,
   Redirect,
@@ -5,11 +6,24 @@ import {
   Switch,
 } from "react-router-dom";
 import { Toolbar } from "@material-ui/core";
+import firebase from "firebase/app";
+
 import routes from "./routes";
 
 import SideBar from "./ui/SideBar";
 import TopBar from "./ui/TopBar";
-import { Suspense } from "react";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyA-9nNrMgYCNdrK9Uuci2MWuHlXhtVGt10",
+  authDomain: "nonprofit-inventory.firebaseapp.com",
+  projectId: "nonprofit-inventory",
+  storageBucket: "nonprofit-inventory.appspot.com",
+  messagingSenderId: "431505251556",
+  appId: "1:431505251556:web:c80f19ee33ea12dcc9a0f1",
+  measurementId: "G-ZVBJMKHQH1",
+};
+
+firebase.initializeApp(firebaseConfig);
 
 function App() {
   return (
