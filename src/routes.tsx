@@ -1,9 +1,10 @@
 import { lazy } from "react";
-import { Archive, Edit, ViewList } from "@material-ui/icons";
+import { Archive, Edit, ListAlt, ViewList } from "@material-ui/icons";
 import { Route } from "./models/route";
 
 const Inventory = lazy(() => import("./ui/Inventory"));
 const SchemaEditor = lazy(() => import("./ui/SchemaEditor"));
+const ItemDetail = lazy(() => import("./ui/ItemDetail"));
 
 const routes: Route[] = [
   {
@@ -28,6 +29,12 @@ const routes: Route[] = [
     text: "Schema Editor",
     path: "/editor",
     component: SchemaEditor,
+  },
+  {
+    icon: ListAlt,
+    text: "Item Detail",
+    path: "/detail",
+    component: ItemDetail,
   },
 ];
 
