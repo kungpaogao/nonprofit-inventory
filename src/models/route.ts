@@ -4,6 +4,6 @@ export type Route = {
   icon?: SvgIconComponent;
   text?: string;
   path?: string;
-  component?: React.LazyExoticComponent<() => JSX.Element>;
+  component?: React.LazyExoticComponent<(props: any) => JSX.Element>;
   divider?: boolean;
 };

@@ -2,38 +2,11 @@ import { MenuItem, TextField, Button, Grid } from "@material-ui/core";
 import React, { useState } from "react";
 import { useForm, Controller } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import * as yup from "yup";
-
-const FIELD_TYPES = [
-  "text",
-  "select",
-  "checkbox",
-  "radio",
-  "number",
-  "textarea",
-  "email",
-  "tel",
-  "url",
-  "time",
-  "datetime",
-  "address",
-];
-
-const SCHEMA = yup.object().shape({
-  fieldName: yup.string().trim().required(),
-  fieldType: yup.mixed().oneOf(FIELD_TYPES).required(),
-  fieldOptions: yup.string().when("fieldType", {
-    is: (fieldType: string) => fieldType === "radio" || fieldType === "select",
-    then: yup
-      .string()
-      .trim()
-      .matches(
-        /^[a-z\d.].*[a-z\d.!?)]$/i,
-        "Options cannot start or end with special characters except '!' or '.' or '?'"
-      )
-      .required(),
-  }),
-});
+import {
+  SchemaFieldValidation,
+  SchemaFieldTypeValues,
+  SchemaFieldType,
+} from "../../models/schema";
 
 export default function CreateField({
   onSubmit,
@@ -44,7 +17,7 @@ export default function CreateField({
     fieldOptions,
   }: {
     fieldName: string;
-    fieldType: string;
+    fieldType: SchemaFieldType;
     fieldOptions: string;
   }) => void;
 }) {
@@ -52,7 +25,7 @@ export default function CreateField({
     control,
     handleSubmit,
     formState: { errors },
-  } = useForm({ resolver: yupResolver(SCHEMA) });
+  } = useForm({ resolver: yupResolver(SchemaFieldValidation) });
 
   const [fieldType, setFieldType] = useState("");
 
@@ -103,7 +76,7 @@ export default function CreateField({
                   <MenuItem value="" disabled>
                     Select an field type
                   </MenuItem>
-                  {FIELD_TYPES.map((type) => (
+                  {SchemaFieldTypeValues.map((type) => (
                     <MenuItem key={type} value={type}>
                       {type.charAt(0).toUpperCase() + type.slice(1)}
                     </MenuItem>

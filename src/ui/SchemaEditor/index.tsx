@@ -6,7 +6,7 @@ import { inc } from "semver";
 import { db } from "../../network/firebase";
 import CreateField from "./CreateField";
 import EditorResults from "./EditorResults";
-import { Schema } from "../../models/schema";
+import { Schema, SchemaFieldType } from "../../models/schema";
 
 export default function SchemaEditor() {
   const [schema, setSchema] = useState<Schema>({
@@ -47,7 +47,7 @@ export default function SchemaEditor() {
     fieldOptions: options,
   }: {
     fieldName: string;
-    fieldType: string;
+    fieldType: SchemaFieldType;
     fieldOptions: string;
   }) {
     const id = `${name.slice(0, 5)}-${type}-${crypto
