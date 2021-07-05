@@ -6,6 +6,8 @@ import {
   Switch,
 } from "react-router-dom";
 import { Toolbar } from "@material-ui/core";
+import { MuiPickersUtilsProvider } from "@material-ui/pickers";
+import DateFnsUtils from "@date-io/date-fns";
 import firebase from "firebase/app";
 
 import routes from "./routes";
@@ -27,29 +29,31 @@ firebase.initializeApp(firebaseConfig);
 
 function App() {
   return (
-    <Router>
-      <div className="flex">
-        <TopBar className="z-10" />
-        <SideBar routes={routes} className="z-0" />
-        <main className="ml-60 overflow-y-auto w-full h-screen">
-          {/* <Toolbar /> used for spacing */}
-          <Toolbar />
+    <MuiPickersUtilsProvider utils={DateFnsUtils}>
+      <Router>
+        <div className="flex">
+          <TopBar className="z-10" />
+          <SideBar routes={routes} className="z-0" />
+          <main className="ml-60 overflow-y-auto w-full h-screen">
+            {/* <Toolbar /> used for spacing */}
+            <Toolbar />
 
-          <Suspense fallback={<div>Loading...</div>}>
-            <Switch>
-              <Redirect from="/" to="/inventory" exact />
-              {routes.map(({ path, component, divider }) => {
-                return (
-                  !divider && (
-                    <Route key={path} path={path} component={component} />
-                  )
-                );
-              })}
-            </Switch>
-          </Suspense>
-        </main>
-      </div>
-    </Router>
+            <Suspense fallback={<div>Loading...</div>}>
+              <Switch>
+                <Redirect from="/" to="/inventory" exact />
+                {routes.map(({ path, component, divider }) => {
+                  return (
+                    !divider && (
+                      <Route key={path} path={path} component={component} />
+                    )
+                  );
+                })}
+              </Switch>
+            </Suspense>
+          </main>
+        </div>
+      </Router>
+    </MuiPickersUtilsProvider>
   );
 }
 
