@@ -1,8 +1,7 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import {
   MenuItem,
   TextField,
-  InputBase,
   FormControlLabel,
   Checkbox,
   FormControl,
@@ -15,6 +14,7 @@ import {
   KeyboardDateTimePicker,
   KeyboardTimePicker,
 } from "@material-ui/pickers";
+import { useDocumentDataOnce } from "react-firebase-hooks/firestore";
 
 import { Schema, SchemaFieldType } from "../../models/schema";
 import { db } from "../../network/firebase";
@@ -23,28 +23,23 @@ import states from "../../data/states.json";
 export default function ItemDetail({
   model = "furniture",
   version = "latest",
+  readOnly = true,
 }: {
   model: string;
   version: string;
+  readOnly: boolean;
 }) {
-  const [schema, setSchema] = useState<Schema>();
   const [itemState, setItemState] = useState<any>({});
+  const [schema, loading, error] = useDocumentDataOnce<Schema>(
+    db.doc(`schemas/${model}/schemas/${version}`)
+  );
 
-  useEffect(() => {
-    async function fetchSchema(model: string, version: string) {
-      const versionSchema = await db
-        .doc(`schemas/${model}/schemas/${version}`)
-        .get();
-      if (versionSchema.exists || versionSchema.data()) {
-        // fetched valid schema
-        setSchema(versionSchema.data() as Schema);
-      }
-    }
-    fetchSchema(model, version);
-  }, [model, version, setSchema]);
-
-  if (!schema) {
+  if (error) {
     return <p>Invalid schema.</p>;
+  }
+
+  if (loading) {
+    return <p>Loading...</p>;
   }
 
   return (
@@ -57,6 +52,8 @@ export default function ItemDetail({
               case SchemaFieldType.TEXT:
                 return (
                   <TextField
+                    InputProps={{ readOnly, disableUnderline: readOnly }}
+                    value="hello"
                     key={id}
                     label={name}
                     className="w-1/2"
@@ -66,6 +63,7 @@ export default function ItemDetail({
               case SchemaFieldType.SELECT:
                 return (
                   <TextField
+                    InputProps={{ readOnly, disableUnderline: readOnly }}
                     key={id}
                     label={name}
                     select
@@ -83,7 +81,7 @@ export default function ItemDetail({
                 return (
                   <FormControlLabel
                     key={id}
-                    control={<Checkbox color="primary" />}
+                    control={<Checkbox readOnly={readOnly} color="primary" />}
                     label={name}
                   />
                 );
@@ -91,6 +89,7 @@ export default function ItemDetail({
                 return (
                   <FormControl key={id}>
                     <FormLabel>{name}</FormLabel>
+                    {/* TODO: figure out how to handle readOnly */}
                     <RadioGroup name={id}>
                       {options?.split(";").map((option) => (
                         <FormControlLabel
@@ -106,6 +105,7 @@ export default function ItemDetail({
               case SchemaFieldType.NUMBER:
                 return (
                   <TextField
+                    InputProps={{ readOnly, disableUnderline: readOnly }}
                     key={id}
                     label={name}
                     type="number"
@@ -116,6 +116,7 @@ export default function ItemDetail({
               case SchemaFieldType.TEXTAREA:
                 return (
                   <TextField
+                    InputProps={{ readOnly, disableUnderline: readOnly }}
                     key={id}
                     label={name}
                     className="w-1/2"
@@ -124,8 +125,10 @@ export default function ItemDetail({
                   />
                 );
               case SchemaFieldType.EMAIL:
+                // TODO: add validation
                 return (
                   <TextField
+                    InputProps={{ readOnly, disableUnderline: readOnly }}
                     key={id}
                     label={name}
                     className="w-1/2"
@@ -133,8 +136,10 @@ export default function ItemDetail({
                   />
                 );
               case SchemaFieldType.TEL:
+                // TODO: add validation
                 return (
                   <TextField
+                    InputProps={{ readOnly, disableUnderline: readOnly }}
                     key={id}
                     label={name}
                     className="w-1/2"
@@ -142,8 +147,10 @@ export default function ItemDetail({
                   />
                 );
               case SchemaFieldType.URL:
+                // TODO: add validation
                 return (
                   <TextField
+                    InputProps={{ readOnly, disableUnderline: readOnly }}
                     key={id}
                     label={name}
                     className="w-1/2"
@@ -153,6 +160,7 @@ export default function ItemDetail({
               case SchemaFieldType.TIME:
                 return (
                   <KeyboardTimePicker
+                    readOnly={readOnly}
                     label={name}
                     key={id}
                     value={itemState[id]}
@@ -167,6 +175,7 @@ export default function ItemDetail({
               case SchemaFieldType.DATETIME:
                 return (
                   <KeyboardDateTimePicker
+                    readOnly={readOnly}
                     label={name}
                     key={id}
                     value={itemState[id]}
@@ -185,16 +194,23 @@ export default function ItemDetail({
                     <Grid container key={id} spacing={3}>
                       <Grid item xs={12}>
                         <TextField
+                          InputProps={{ readOnly, disableUnderline: readOnly }}
                           label="Street address"
                           className="w-1/2"
                           fullWidth
                         />
                       </Grid>
                       <Grid item xs={12} md={6}>
-                        <TextField label="City" className="w-1/2" fullWidth />
+                        <TextField
+                          InputProps={{ readOnly, disableUnderline: readOnly }}
+                          label="City"
+                          className="w-1/2"
+                          fullWidth
+                        />
                       </Grid>
                       <Grid item xs={12} md={3}>
                         <TextField
+                          InputProps={{ readOnly, disableUnderline: readOnly }}
                           label="State"
                           className="w-1/2"
                           fullWidth
@@ -206,11 +222,18 @@ export default function ItemDetail({
                         </TextField>
                       </Grid>
                       <Grid item xs={12} md={3}>
-                        <TextField label="ZIP" className="w-1/2" fullWidth />
+                        <TextField
+                          InputProps={{ readOnly, disableUnderline: readOnly }}
+                          label="ZIP"
+                          className="w-1/2"
+                          fullWidth
+                        />
                       </Grid>
                     </Grid>
                   </>
                 );
+              default:
+                return <div key={id}>Invalid schema element.</div>;
             }
           })
           .map((element) => (
