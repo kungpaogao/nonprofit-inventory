@@ -58,9 +58,7 @@
     ]
   },
   "devDependencies": {
-    "@jackwilsdon/craco-use-babelrc": "^1.0.0",
     "autoprefixer": "^9",
-    "babel-plugin-import": "^1.13.3",
     "postcss": "^7",
     "prettier": "^2.3.1",
     "tailwindcss": "npm:@tailwindcss/postcss7-compat"
