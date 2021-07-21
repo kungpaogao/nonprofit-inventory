@@ -5,7 +5,10 @@ import {
   Route,
   Switch,
 } from "react-router-dom";
-import { Toolbar } from "@material-ui/core";
+import { ThemeProvider, Toolbar } from "@material-ui/core";
+import { createTheme } from "@material-ui/core/styles";
+import blue from "@material-ui/core/colors/blue";
+import amber from "@material-ui/core/colors/amber";
 import { MuiPickersUtilsProvider } from "@material-ui/pickers";
 import DateFnsUtils from "@date-io/date-fns";
 import firebase from "firebase/app";
@@ -29,33 +32,42 @@ if (!firebase.apps.length) {
   firebase.initializeApp(firebaseConfig);
 }
 
+const theme = createTheme({
+  palette: {
+    primary: blue,
+    secondary: amber,
+  },
+});
+
 function App() {
   return (
-    <MuiPickersUtilsProvider utils={DateFnsUtils}>
-      <Router>
-        <div className="flex">
-          <TopBar className="z-10" />
-          <SideBar routes={routes} className="z-0" />
-          <main className="ml-60 overflow-y-auto w-full h-screen">
-            {/* <Toolbar /> used for spacing */}
-            <Toolbar />
+    <ThemeProvider theme={theme}>
+      <MuiPickersUtilsProvider utils={DateFnsUtils}>
+        <Router>
+          <div className="flex">
+            <TopBar className="z-10" />
+            <SideBar routes={routes} className="z-0" />
+            <main className="ml-60 overflow-y-auto w-full h-screen">
+              {/* <Toolbar /> used for spacing */}
+              <Toolbar />
 
-            <Suspense fallback={<div>Loading...</div>}>
-              <Switch>
-                <Redirect from="/" to="/inventory" exact />
-                {routes.map(({ path, component, divider }) => {
-                  return (
-                    !divider && (
-                      <Route key={path} path={path} component={component} />
-                    )
-                  );
-                })}
-              </Switch>
-            </Suspense>
-          </main>
-        </div>
-      </Router>
-    </MuiPickersUtilsProvider>
+              <Suspense fallback={<div>Loading...</div>}>
+                <Switch>
+                  <Redirect from="/" to="/inventory" exact />
+                  {routes.map(({ path, component, divider }) => {
+                    return (
+                      !divider && (
+                        <Route key={path} path={path} component={component} />
+                      )
+                    );
+                  })}
+                </Switch>
+              </Suspense>
+            </main>
+          </div>
+        </Router>
+      </MuiPickersUtilsProvider>
+    </ThemeProvider>
   );
 }
 
