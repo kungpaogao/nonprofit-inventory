@@ -9,6 +9,7 @@ import {
   RadioGroup,
   Radio,
   Grid,
+  TextFieldProps,
 } from "@material-ui/core";
 import {
   KeyboardDateTimePicker,
@@ -20,6 +21,28 @@ import { Schema, SchemaFieldType } from "../../models/schema";
 import { db } from "../../network/firebase";
 import states from "../../data/states.json";
 
+function ReadOnlyTextField({
+  label,
+  readOnly,
+  value,
+  ...props
+}: {
+  readOnly?: boolean;
+} & TextFieldProps) {
+  return (
+    <TextField
+      InputProps={{ readOnly, disableUnderline: readOnly }}
+      InputLabelProps={{
+        shrink: !readOnly || (readOnly && !!value),
+      }}
+      label={label}
+      value={value}
+      fullWidth
+      {...props}
+    />
+  );
+}
+
 export default function ItemDetail({
   model = "furniture",
   version = "latest",
@@ -29,7 +52,9 @@ export default function ItemDetail({
   version: string;
   readOnly: boolean;
 }) {
-  const [itemState, setItemState] = useState<any>({});
+  const [itemState, setItemState] = useState<any>({
+    "first-text-88e84ae5c7": "hello",
+  });
   const [schema, loading, error] = useDocumentDataOnce<Schema>(
     db.doc(`schemas/${model}/schemas/${version}`)
   );
@@ -42,6 +67,8 @@ export default function ItemDetail({
     return <p>Loading...</p>;
   }
 
+  console.log(schema);
+
   return (
     <>
       <h2 className="text-2xl mb-4">{model}</h2>
@@ -51,19 +78,18 @@ export default function ItemDetail({
             switch (type) {
               case SchemaFieldType.TEXT:
                 return (
-                  <TextField
-                    InputProps={{ readOnly, disableUnderline: readOnly }}
-                    value="hello"
+                  <ReadOnlyTextField
+                    readOnly={readOnly}
                     key={id}
                     label={name}
+                    value={itemState?.[id]}
                     className="w-1/2"
-                    fullWidth
                   />
                 );
               case SchemaFieldType.SELECT:
                 return (
-                  <TextField
-                    InputProps={{ readOnly, disableUnderline: readOnly }}
+                  <ReadOnlyTextField
+                    readOnly={readOnly}
                     key={id}
                     label={name}
                     select
@@ -75,7 +101,7 @@ export default function ItemDetail({
                         {option}
                       </MenuItem>
                     ))}
-                  </TextField>
+                  </ReadOnlyTextField>
                 );
               case SchemaFieldType.CHECKBOX:
                 return (
@@ -104,8 +130,8 @@ export default function ItemDetail({
                 );
               case SchemaFieldType.NUMBER:
                 return (
-                  <TextField
-                    InputProps={{ readOnly, disableUnderline: readOnly }}
+                  <ReadOnlyTextField
+                    readOnly={readOnly}
                     key={id}
                     label={name}
                     type="number"
@@ -115,8 +141,8 @@ export default function ItemDetail({
                 );
               case SchemaFieldType.TEXTAREA:
                 return (
-                  <TextField
-                    InputProps={{ readOnly, disableUnderline: readOnly }}
+                  <ReadOnlyTextField
+                    readOnly={readOnly}
                     key={id}
                     label={name}
                     className="w-1/2"
@@ -127,8 +153,8 @@ export default function ItemDetail({
               case SchemaFieldType.EMAIL:
                 // TODO: add validation
                 return (
-                  <TextField
-                    InputProps={{ readOnly, disableUnderline: readOnly }}
+                  <ReadOnlyTextField
+                    readOnly={readOnly}
                     key={id}
                     label={name}
                     className="w-1/2"
@@ -138,8 +164,8 @@ export default function ItemDetail({
               case SchemaFieldType.TEL:
                 // TODO: add validation
                 return (
-                  <TextField
-                    InputProps={{ readOnly, disableUnderline: readOnly }}
+                  <ReadOnlyTextField
+                    readOnly={readOnly}
                     key={id}
                     label={name}
                     className="w-1/2"
@@ -149,8 +175,8 @@ export default function ItemDetail({
               case SchemaFieldType.URL:
                 // TODO: add validation
                 return (
-                  <TextField
-                    InputProps={{ readOnly, disableUnderline: readOnly }}
+                  <ReadOnlyTextField
+                    readOnly={readOnly}
                     key={id}
                     label={name}
                     className="w-1/2"
@@ -193,24 +219,24 @@ export default function ItemDetail({
                     <h3>{name}</h3>
                     <Grid container key={id} spacing={3}>
                       <Grid item xs={12}>
-                        <TextField
-                          InputProps={{ readOnly, disableUnderline: readOnly }}
+                        <ReadOnlyTextField
+                          readOnly={readOnly}
                           label="Street address"
                           className="w-1/2"
                           fullWidth
                         />
                       </Grid>
                       <Grid item xs={12} md={6}>
-                        <TextField
-                          InputProps={{ readOnly, disableUnderline: readOnly }}
+                        <ReadOnlyTextField
+                          readOnly={readOnly}
                           label="City"
                           className="w-1/2"
                           fullWidth
                         />
                       </Grid>
                       <Grid item xs={12} md={3}>
-                        <TextField
-                          InputProps={{ readOnly, disableUnderline: readOnly }}
+                        <ReadOnlyTextField
+                          readOnly={readOnly}
                           label="State"
                           className="w-1/2"
                           fullWidth
@@ -219,11 +245,11 @@ export default function ItemDetail({
                           {states.map(({ name, abbrev }) => (
                             <MenuItem key={abbrev}>{abbrev}</MenuItem>
                           ))}
-                        </TextField>
+                        </ReadOnlyTextField>
                       </Grid>
                       <Grid item xs={12} md={3}>
-                        <TextField
-                          InputProps={{ readOnly, disableUnderline: readOnly }}
+                        <ReadOnlyTextField
+                          readOnly={readOnly}
                           label="ZIP"
                           className="w-1/2"
                           fullWidth
