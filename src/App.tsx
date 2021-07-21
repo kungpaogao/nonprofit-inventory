@@ -25,7 +25,9 @@ const firebaseConfig = {
   measurementId: "G-ZVBJMKHQH1",
 };
 
-firebase.initializeApp(firebaseConfig);
+if (!firebase.apps.length) {
+  firebase.initializeApp(firebaseConfig);
+}
 
 function App() {
   return (
